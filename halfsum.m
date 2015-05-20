@@ -8,10 +8,12 @@
 
 function dsum = halfsum (A)
 dsum = 0;
-    for i = 1:size(A,1)
-        for j = 1:size(A,2)          
+    for i = 1:size(A, 1)
+        for j = 1:size(A, 2)          
             if (i == j)
-                dsum = dsum + A(i,j);
+                for k = i:size(A, 2)
+                    dsum = dsum + A(i, k);
+                end
             end
         end
     end
