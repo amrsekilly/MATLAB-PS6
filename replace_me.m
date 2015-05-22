@@ -33,26 +33,32 @@ function w = replace_me(v,a,b,c)
         % if there is at least one occurance of a in v
         for i = 1 : length(index)
             % loop over all the occuramces "indexes"
-            if (i < length(index))
+            if (i < length(index) & length(index) > 1)
                 % if this is not the last occurance
-                if (length(tmpv) < 1)
+                if (length(tmpv) < 1 & length(index) > 1)
                     % 1st replacement "nothing in buffer yet"
-                    tmpv = [v(1 : index-1), b, c, v(index + 1 : index(i+1)-2)];
-                else
+                    tmpv = [v(1 : index-1), b, c, v(index + 1 : index(i+1)-1)];
+                    index(1) = [];
+                elseif (length(index) > 1)
                     tmpv = [tmpv, b, c, v(index + length(tmpv)+4 : index(i+1))];
+                    index(1) = [];
                 end
             else
-                if (v(index(end)) == v(end)) % last found is last in v
+                if (v(index(end)) == v(end) & length(index) > 1) % last found is last in v
                     tmpv = [tmpv, b, c];
-                else % last found is in the middle
-                    tmpv = [tmpv, b, c, v(index+3 : end)];
+                    index(1) = [];
+                elseif (length(index) > 1) % last found is in the middle
+                    tmpv = [tmpv, b, c, v(index(end-1)+1:index(end)-1)];
+                    index(1) = [];
                 end
-                index(1) = [];
             end
         end
-    elseif (length(index) == 1)
+    else
+        tmpv = v;
+    end
+    if (length(index) == 1)
         for i = 1 : length(index)
-            tmpv = [v(1 : index-1), b, c, v(index+1 : end)];
+            tmpv = [tmpv(1 : index-1), b, c, tmpv(index+1 : end)];
         end  
     else 
         tmpv = v;
