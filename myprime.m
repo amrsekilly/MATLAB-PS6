@@ -1,16 +1,26 @@
 % Introduction to Programming with MATLAB - MOOC
-% Homework 6 - Problem 9
+% Homework 6 - Problem 10
 
 % input: n: positive integer
 % returns: true if n is prime or false otherwise
 
 function ip = myprime (n)
-  if (n <= 1)
-      ip = false;
-  elseif (n <= 3)
-      ip = true;
-  elseif (mod(n, 2) == 0 | mod(n, 3) == 0)
-      ip = false;
-  else
-      ip = true;
+   i = 2;
+   if (n == 2)
+       ip = 1;
+       return;
+   elseif (n == 4)
+       ip = 0;
+       return;
+   end
+   while (i <= sqrt(n))
+       if (rem(n, i) == 0)
+           ip = 0;
+           return;
+       end
+       i = i + 1;
+   end
+   ip = 1;
+   return;
 end
+
