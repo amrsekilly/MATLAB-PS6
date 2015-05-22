@@ -28,7 +28,7 @@ function w = replace_me(v,a,b,c)
     index = [];
     for i = 1 : length(v)
         if (v(i) == a)
-            index(end+1) = i;
+            index(end+1) = i
         end
     end
     % replace each occurance with b c 
@@ -36,12 +36,12 @@ function w = replace_me(v,a,b,c)
     if (length(index) > 1)
         for i = 1 : length(index)
             if (i < length(index))
-                tmpv = [v(1 : index-1), b, c, v(index +1 : index(i+1)-1)];
+                tmpv = [v(1 : index-1), b, c, v(index +1 : index(i+1)-1)]
             else
                 if (v(index) == v(end)) % last found is last in v
-                    tmpv = [tmpv, b, c];
+                    tmpv = [tmpv, b, c]
                 else % last found is in the middle
-                    tmpv = [tmpv, b, c, v(index+3 : end)];
+                    tmpv = [tmpv, b, c, v(index+3 : end)]
                 end
             end
         end
