@@ -13,5 +13,48 @@
 % c is omitted: c = b
 % b and c are omitted: b = 0; c = 0
 function w = replace_me(v,a,b,c)
-    
+% Input validation
+    if (nargin == 0 | nargin < 2)
+        error('Invalid Input, you have to enter a (vector, scalar, scalar, scalar) as arguments');
+    elseif (nargin < 3)
+        % b & c are omitted
+        b = 0;
+        c = 0;
+    elseif (nargin < 4)
+        c = b;
+    end
+    % main program
+    % get indeces of each found val
+    index = [];
+    for i = 1 : length(v)
+        if (v(i) == a)
+            index(end+1) = i;
+        end
+    end
+    % replace each occurance with b c 
+    % if count = 1 occurance -> index++
+    if (length(index) > 1)
+        for i = 1 : length(index)
+            if (i < length(index))
+                tmpv = [v(1 : index-1), b, c, v(index +1 : index(i+1)-1)];
+            else
+                if (v(index) == v(end)) % last found is last in v
+                    tmpv = [tmpv, b, c];
+                else % last found is in the middle
+                    tmpv = [tmpv, b, c, v(index+3 : end)];
+                end
+            end
+        end
+    elseif (length(index) == 1)
+        for i = 1 : length(index)
+            tmpv = [v(1 : index-1), b, c, v(index+1 : end)];
+        end  
+    else 
+        tmpv = v;
+    end
+    w = tmpv;
 end
+
+
+
+
