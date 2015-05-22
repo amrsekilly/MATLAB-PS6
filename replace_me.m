@@ -33,10 +33,15 @@ function w = replace_me(v,a,b,c)
     end
     % replace each occurance with b c 
     % if count = 1 occurance -> index++
+    tmpv = [];
     if (length(index) > 1)
         for i = 1 : length(index)
             if (i < length(index))
-                tmpv = [v(1 : index-1), b, c, v(index +1 : index(i+1)-1)]
+                if (length(tmpv) < 1)
+                    tmpv = [v(1 : index-1), b, c, v(index +1 : index(i+1)-2)]
+            %    else
+              %      tmpv = [tmpv, b, c, v(index +1 : index(i+1)-2)]
+                end
             else
                 if (v(index) == v(end)) % last found is last in v
                     tmpv = [tmpv, b, c]
