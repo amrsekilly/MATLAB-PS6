@@ -13,7 +13,6 @@
 % c is omitted: c = b
 % b and c are omitted: b = 0; c = 0
 function w = replace_me(v,a,b,c)
-% Input validation
     if (nargin == 0 | nargin < 2)
         error('Invalid Input, you have to enter a (vector, scalar, scalar, scalar) as arguments');
     elseif (nargin < 3)
@@ -23,31 +22,32 @@ function w = replace_me(v,a,b,c)
     elseif (nargin < 4)
         c = b;
     end
-    % main program
-    % get indeces of each found val
-    index = [];
-    for i = 1 : length(v)
-        if (v(i) == a)
-            index(end+1) = i
-        end
-    end
+    
+    
+    
+    index = get_index (v, a); % get indexes
     % replace each occurance with b c 
     % if count = 1 occurance -> index++
     tmpv = [];
     if (length(index) > 1)
+        % if there is at least one occurance of a in v
         for i = 1 : length(index)
+            % loop over all the occuramces "indexes"
             if (i < length(index))
+                % if this is not the last occurance
                 if (length(tmpv) < 1)
-                    tmpv = [v(1 : index-1), b, c, v(index +1 : index(i+1)-2)]
-            %    else
-              %      tmpv = [tmpv, b, c, v(index +1 : index(i+1)-2)]
+                    % 1st replacement "nothing in buffer yet"
+                    tmpv = [v(1 : index-1), b, c, v(index + 1 : index(i+1)-2)];
+                else
+                    tmpv = [tmpv, b, c, v(index + length(tmpv)+4 : index(i+1))];
                 end
             else
-                if (v(index) == v(end)) % last found is last in v
-                    tmpv = [tmpv, b, c]
+                if (v(index(end)) == v(end)) % last found is last in v
+                    tmpv = [tmpv, b, c];
                 else % last found is in the middle
-                    tmpv = [tmpv, b, c, v(index+3 : end)]
+                    tmpv = [tmpv, b, c, v(index+3 : end)];
                 end
+                index(1) = [];
             end
         end
     elseif (length(index) == 1)
@@ -60,6 +60,16 @@ function w = replace_me(v,a,b,c)
     w = tmpv;
 end
 
+%% Get index function 
+function index = get_index (v, a)
+   % get indeces of each found val
+    index = [];
+    for i = 1 : length(v)
+        if (v(i) == a)
+            index(end+1) = i;
+        end
+    end
+end
 
 
 
